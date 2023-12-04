@@ -1,6 +1,7 @@
 package user
 
 import (
+	common "digit.icu.common"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -9,5 +10,6 @@ type HandlerUser struct {
 }
 
 func (*HandlerUser) getCapture(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"msg": "hello"})
+	rsp := &common.Result{}
+	c.JSON(http.StatusOK, rsp.Success("12356"))
 }

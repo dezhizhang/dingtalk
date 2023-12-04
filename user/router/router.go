@@ -19,6 +19,7 @@ func New() *RegisterRouter {
 func (*RegisterRouter) Route(ro Router, r *gin.Engine) {
 	ro.Route(r)
 }
+
 func InitRouter(r *gin.Engine) {
 	rg := New()
 	rg.Route(&user.RouterUser{}, r)
