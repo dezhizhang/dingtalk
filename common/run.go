@@ -12,15 +12,14 @@ import (
 	"time"
 )
 
-func Run() {
-	r := gin.Default()
+func Run(r *gin.Engine, srvName string, addr string) {
 	srv := &http.Server{
-		Addr:    ":8082",
+		Addr:    addr,
 		Handler: r,
 	}
 
 	go func() {
-		log.Fatalf("user server running in %s\n", srv.Addr)
+		log.Fatalf("%s server running in %s\n", srvName, srv.Addr)
 
 		err := srv.ListenAndServe()
 		if err != nil {
@@ -34,14 +33,14 @@ func Run() {
 
 	<-quit
 
-	log.Println("shutting down user web server...")
+	log.Printf("shutting down %s web server...", srvName)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 
 	defer cancel()
 
 	if err := srv.Shutdown(ctx); err != nil {
-		log.Fatalln("user server shutdown,cause by", err)
+		log.Fatalf("%s server shutdown,cause by", err)
 		return
 	}
 
@@ -50,5 +49,5 @@ func Run() {
 		log.Println("关闭超时")
 	}
 
-	fmt.Println("user server stop success...")
+	fmt.Printf("%s server stop success...", srvName)
 }
